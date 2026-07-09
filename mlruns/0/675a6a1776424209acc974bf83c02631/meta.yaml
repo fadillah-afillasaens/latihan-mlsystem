@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/latihan-mlsystem/mlruns/0/675a6a1776424209acc974bf83c02631/artifacts
+end_time: 1783602233637
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 675a6a1776424209acc974bf83c02631
+run_name: intelligent-rat-490
+run_uuid: 675a6a1776424209acc974bf83c02631
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1783602233500
+status: 3
+tags: []
+user_id: FADILLAH
