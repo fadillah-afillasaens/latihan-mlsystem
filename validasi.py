@@ -1,24 +1,31 @@
 import mlflow
 import mlflow.models
 from mlflow.models import validate_serving_input, convert_input_example_to_serving_input
+import numpy as np
 
-# 1. Atur tracking URI ke server MLflow lokal Anda
 mlflow.set_tracking_uri(uri="http://127.0.0.1:5000/")
 
 logged_model = 'runs:/64a92ba53c8f4445ab2b9edb35fb0b9c/model'
 
-print("--- Memulai Proses Validasi Skema Model ---")
+print("--- Memulai Proses Validasi & Konversi Payload ---")
 
 try:
-    model_info = mlflow.models.get_model_info(logged_model)
-    input_example = model_info.signature.inputs
+    INPUT_EXAMPLE = np.array([
+        [5.1, 3.5, 1.4, 0.2],
+        [4.9, 3.0, 1.4, 0.2],
+        [4.7, 3.2, 1.3, 0.2],
+        [4.6, 3.1, 1.5, 0.2],
+        [5.0, 3.6, 1.4, 0.2]
+    ])
     
-    print("✅ Skema Input Model Ditemukan!")
-    print(f"Struktur Fitur Iris: \n{input_example}")
-    print("-" * 40)
+    serving_payload = convert_input_example_to_serving_input(INPUT_EXAMPLE)
     
-    print("Memanggil fungsi validate_serving_input untuk kesiapan deployment...")
-    print("Validasi skema berhasil! Model siap digunakan untuk serving.")
+    print("\n🚀 Hasil Konversi ke Serving Payload (Format REST API):")
+    print(serving_payload)
+    print("-" * 50)
+    
+    validate_serving_input(logged_model, serving_payload)
+    print("✅ Validasi Sukses! Payload sesuai dengan kebutuhan REST API model.")
 
 except Exception as e:
-    print(f"❌ Terjadi kesalahan saat membaca skema model: {e}")
+    print(f"❌ Terjadi kesalahan saat validasi: {e}")
